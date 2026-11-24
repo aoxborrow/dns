@@ -230,7 +230,8 @@ disagree: `exports` and `publishConfig.exports` in `package.json`, and `entries`
 A release runs on a pushed tag `v<version>`, which must equal `version` in `package.json`.
 The workflow (`.github/workflows/release.yml`) lints, tests, runs the browser and pack checks,
 builds, and publishes with npm's trusted publishing, with provenance. A version with a hyphen
-(`1.0.0-beta.2`) goes to the `beta` dist-tag, any other to `latest`.
+(`1.0.0-beta.2`) goes to the `beta` dist-tag, any other to `latest`. A tag for a version
+already on npm runs the checks and skips the publish.
 
 1. Add the version's section to `CHANGELOG.md`, and bump `version` in `package.json`.
 2. Commit, then `git tag v<version> && git push origin v<version>`.
