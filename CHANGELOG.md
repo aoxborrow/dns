@@ -3,6 +3,13 @@
 Every release of `@aoxborrow/dns`. Releases before 1.0 were published as
 `@aoxborrow/dns-client`; [UPGRADING.md](UPGRADING.md) covers the move from 0.x.
 
+## Unreleased
+
+- A record whose `ttl` is `null` is refused with an `invalid-ttl` problem again, by
+  `parseRecord`, `canonicalRecord`, `findRepeatedRecords` and `diffRecords`, instead of being
+  taken as a TTL of 0. Only a TTL left out (`undefined`) is 0, as `FlatRecordInput` says, so
+  `diffRecords` with `compareTtl` no longer compares a `null` TTL as 0.
+
 ## 1.0.0-beta.1
 
 The first release under the new name, on npm's `beta` tag. A rewrite of
