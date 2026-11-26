@@ -60,7 +60,12 @@ function problemsOf(check: () => void): RecordProblem[] {
 // the name, type, class and TTL, each checked. All four are checked before throwing, so
 // a record with several things wrong with it reports them together
 function envelope(input: FlatRecordInput, options: ValidateOptions): Envelope {
-  const head: Envelope = { name: '', type: '', class: 'IN', ttl: input.ttl ?? 0 };
+  const head: Envelope = {
+    name: '',
+    type: '',
+    class: 'IN',
+    ttl: input.ttl === undefined ? 0 : input.ttl,
+  };
   const problems = [
     ...problemsOf(() => {
       if (!Number.isInteger(head.ttl) || head.ttl < 0 || head.ttl > TTL_LIMIT) {

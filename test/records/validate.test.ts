@@ -295,6 +295,18 @@ describe('parseRecord', () => {
     });
   });
 
+  it('refuses a null TTL, which is not a TTL left out', () => {
+    const record = { ...rec('example.com', 'A', '192.0.2.1'), ttl: null as unknown as number };
+    expect(problems(() => canonicalRecord(record))).toEqual([
+      expect.objectContaining({ code: 'invalid-ttl', values: { ttl: null } }),
+    ]);
+    expect(() => parseRecord(record)).toThrow(RecordSyntaxError);
+    const zero = rec('example.com', 'A', '192.0.2.1', 0);
+    for (const compareTtl of [false, true]) {
+      expect(() => diffRecords([record], [zero], { compareTtl })).toThrow(RecordSyntaxError);
+    }
+  });
+
   it('has no fields to give for a type that is not on the wire', () => {
     expect(() => parseRecord(rec('example.com', 'ANAME', 'lb.example.net.'))).toThrow(
       /Unknown record type/
